@@ -1,0 +1,255 @@
+{
+  "backend": {
+    "scripts": [
+      {
+        "name": "app/main.py",
+        "location": "app/",
+        "purpose": "Entry point to run the FastAPI application using Uvicorn.",
+        "key_interactions": "Imports `app` from `app/__init__.py`."
+      },
+      {
+        "name": "app/__init__.py",
+        "location": "app/",
+        "purpose": "Initializes the FastAPI app (`AtlasApplication`), sets up configurations, logging, static files, templates, routers, and event handlers. Manages ImageJ service lifecycle.",
+        "key_interactions": "Imports from `config.py`, `services` module, and `routes` module (`image_routes`, `chat_routes`)."
+      },
+      {
+        "name": "app/auth.py",
+        "location": "app/",
+        "purpose": "Handles user authentication using HTTP Basic Authentication.",
+        "key_interactions": "Provides authentication dependencies to routes via FastAPI's `Depends`."
+      },
+      {
+        "name": "app/database.py",
+        "location": "app/",
+        "purpose": "Sets up the database connection using SQLAlchemy and defines the `ImageMetadata` model.",
+        "key_interactions": "Provides `get_db` for database sessions used by `image_routes.py` and other services."
+      },
+      {
+        "name": "config.yaml",
+        "location": "Project Root",
+        "purpose": "Stores all configuration settings in YAML format.",
+        "key_interactions": "Loaded by `config.py` and utilized by various backend scripts."
+      },
+      {
+        "name": "app/config.py",
+        "location": "app/",
+        "purpose": "Manages application configurations by loading settings from `config.yaml`.",
+        "key_interactions": "Loaded by multiple scripts (`__init__.py`, `auth.py`, `database.py`, `chat_routes.py`, etc.)."
+      },
+      {
+        "name": "app/chat_routes.py",
+        "location": "app/routes/",
+        "purpose": "Handles chat-related API routes, including macro generation and prompt improvement with streaming capabilities.",
+        "key_interactions": "Utilizes `auth.py` for authentication and interacts with `atlas_service` for AI functionalities."
+      },
+      {
+        "name": "app/image_routes.py",
+        "location": "app/routes/",
+        "purpose": "Manages image-related API routes, including uploading, deleting, and executing macros on images.",
+        "key_interactions": "Uses `image_service`, `imagej_service`, and interacts with `database.py` for metadata storage."
+      },
+      {
+        "name": "app/services/__init__.py",
+        "location": "app/services/",
+        "purpose": "Initializes and configures services (`imagej_service`, `atlas_service`, `file_service`, `image_service`).",
+        "key_interactions": "Sets dependencies like `file_service` for `imagej_service`; initializes ImageJ service."
+      },
+      {
+        "name": "app/services/atlas_service.py",
+        "location": "app/services/",
+        "purpose": "Interacts with Anthropic API to generate improved prompts and ImageJ macros using streaming.",
+        "key_interactions": "Utilizes `anthropic.AsyncAnthropic`, configuration from `config.py`, and predefined prompts."
+      },
+      {
+        "name": "app/services/file_service.py",
+        "location": "app/services/",
+        "purpose": "Manages file operations, including waiting for file creation, creating ZIP archives, parsing logs, and cleaning up temporary files.",
+        "key_interactions": "Utilized by `imagej_service.py` and `image_service.py`."
+      },
+      {
+        "name": "app/services/image_service.py",
+        "location": "app/services/",
+        "purpose": "Handles image processing tasks, including running preview macros and generating image previews.",
+        "key_interactions": "Interfaces with `imagej_service` and `file_service`; interacts with ImageJ via `scyjava`."
+      },
+      {
+        "name": "app/services/imagej_service.py",
+        "location": "app/services/",
+        "purpose": "Manages initialization, execution, and shutdown of ImageJ service; executes ImageJ macros on uploaded images.",
+        "key_interactions": "Depends on `file_service`; utilizes ImageJ and Bio-Formats via `scyjava`; interacts with `image_routes.py`."
+      },
+      {
+        "name": "app/prompts/system_prompts.py",
+        "location": "app/prompts/",
+        "purpose": "Defines system-level prompts for AI interactions, guiding macro generation and prompt improvement.",
+        "key_interactions": "Utilized by `atlas_service.py` and other AI-related services to ensure consistent and accurate AI responses."
+      }
+    ]
+  },
+  "frontend": {
+    "scripts": [
+      {
+        "name": "app/templates/intext.html",
+        "location": "app/templates/",
+        "purpose": "Main HTML template for the frontend interface, including image upload and chat sections.",
+        "key_interactions": "Links to CSS stylesheets and JavaScript modules; structures the UI for user interactions."
+      },
+      {
+        "name": "app/static/js/main.js",
+        "location": "app/static/js/",
+        "purpose": "Initializes application components (sidebar, file handling, chat interface, macro script interface), sets up event listeners, and manages overall application state.",
+        "key_interactions": "Imports modules like `sidebar.js`, `fileHandling.js`, `chatInterface.js`, `macroScriptInterface.js`, `eventListeners.js`, `colorSchemeSwitcher.js`."
+      },
+      {
+        "name": "app/static/js/apiCalls.js",
+        "location": "app/static/js/",
+        "purpose": "Manages API calls to the backend for macro generation, prompt improvement, image upload, and deletion.",
+        "key_interactions": "Utilizes Fetch API to communicate with backend routes; handles different response types (JSON, ZIP)."
+      },
+      {
+        "name": "app/static/js/uiUpdates.js",
+        "location": "app/static/js/",
+        "purpose": "Manages UI updates, including displaying chat messages, macro scripts, error/success messages, and loading indicators.",
+        "key_interactions": "Called by other JS modules like `chatInterface.js` for UI feedback."
+      },
+      {
+        "name": "app/static/js/chatInterface.js",
+        "location": "app/static/js/",
+        "purpose": "Manages the chat interface, handling user inputs, prompt improvements, and macro generation via streaming.",
+        "key_interactions": "Uses `apiCalls.js` for backend communication and `uiUpdates.js` for UI updates; interacts with sidebar for file previews."
+      },
+      {
+        "name": "app/static/js/fileHandling.js",
+        "location": "app/static/js/",
+        "purpose": "Manages file upload interactions, drag-and-drop functionality, and interaction with the sidebar for displaying image previews.",
+        "key_interactions": "Uses `apiCalls.js` and `uiUpdates.js` for backend communication and UI feedback; interfaces with `sidebar.js`."
+      },
+      {
+        "name": "app/static/js/macroScriptInterface.js",
+        "location": "app/static/js/",
+        "purpose": "Handles macro script submissions, image uploads associated with macros, and result processing.",
+        "key_interactions": "Utilizes `apiCalls.js` for uploading and downloading; interacts with `uiUpdates.js` for displaying results."
+      },
+      {
+        "name": "app/static/js/eventListeners.js",
+        "location": "app/static/js/",
+        "purpose": "Sets up event listeners for various UI interactions, ensuring elements are properly referenced and handlers are correctly bound.",
+        "key_interactions": "Interfaces with `sidebar.js`, `fileHandling.js`, `chatInterface.js`, `macroScriptInterface.js`."
+      },
+      {
+        "name": "app/static/js/colorSchemeSwitcher.js",
+        "location": "app/static/js/",
+        "purpose": "Manages color scheme switching functionality, allowing users to select and persist UI color themes.",
+        "key_interactions": "Interacts with the color scheme selection dropdown in `intext.html`; updates CSS variables based on selection."
+      },
+      {
+        "name": "app/static/js/sidebar.js",
+        "location": "app/static/js/",
+        "purpose": "Manages sidebar functionality, including image preview management and sidebar toggling.",
+        "key_interactions": "Interfaces with `fileHandling.js` for displaying image previews; updates UI elements accordingly."
+      },
+      {
+        "name": "app/static/js/utils.js",
+        "location": "app/static/js/",
+        "purpose": "Provides utility functions like adjusting textarea height for better UI responsiveness.",
+        "key_interactions": "Imported by other JS modules for shared utility functions."
+      },
+      {
+        "name": "app/static/css/main.css",
+        "location": "app/static/css/",
+        "purpose": "Main CSS stylesheet importing other CSS modules and defining base styles and theme transitions.",
+        "key_interactions": "Styles the entire frontend interface, including fonts, colors, and responsive design."
+      },
+      {
+        "name": "app/static/css/chat.css",
+        "location": "app/static/css/",
+        "purpose": "Styles chat components, including chat containers, message bubbles, and interactive elements.",
+        "key_interactions": "Applied to chat-related HTML elements for layout and visual consistency."
+      },
+      {
+        "name": "app/static/css/drag-drop.css",
+        "location": "app/static/css/",
+        "purpose": "Styles the drag-and-drop zone for file uploads, including hover effects and responsive design.",
+        "key_interactions": "Applied to the drop zone in `intext.html` to enhance user interaction during file uploads."
+      },
+      {
+        "name": "app/static/css/layout.css",
+        "location": "app/static/css/",
+        "purpose": "Defines the overall layout of the application, including main containers, columns, and responsive behavior.",
+        "key_interactions": "Applied to structural HTML elements in `intext.html` to manage the positioning and sizing of components."
+      },
+      {
+        "name": "app/static/css/message.css",
+        "location": "app/static/css/",
+        "purpose": "Styles chat message bubbles for outputs and user inputs, with different themes and transitions.",
+        "key_interactions": "Applied to chat message elements to differentiate between system, user, and output messages."
+      },
+      {
+        "name": "app/static/css/macro-script.css",
+        "location": "app/static/css/",
+        "purpose": "Styles the macro script display area, including syntax highlighting and action buttons.",
+        "key_interactions": "Applied to macro script windows in the chat interface for better readability and interactivity."
+      },
+      {
+        "name": "app/static/css/color-scheme-selector.css",
+        "location": "app/static/css/",
+        "purpose": "Styles the color scheme selector dropdown, ensuring it integrates seamlessly with the overall UI.",
+        "key_interactions": "Applied to the color scheme selection component in `intext.html` to provide a consistent look and feel."
+      },
+      {
+        "name": "app/static/css/sidebar.css",
+        "location": "app/static/css/",
+        "purpose": "Styles the sidebar, including toggling states, image previews, and interactive elements.",
+        "key_interactions": "Applied to sidebar HTML elements to manage visibility and layout of image previews."
+      },
+      {
+        "name": "app/static/css/responsive.css",
+        "location": "app/static/css/",
+        "purpose": "Ensures the application is responsive across different screen sizes and devices.",
+        "key_interactions": "Utilized across various components to maintain usability and aesthetics on mobile and desktop views."
+      },
+      {
+        "name": "app/static/css/utilities.css",
+        "location": "app/static/css/",
+        "purpose": "Provides utility classes for common styling needs, such as margins, paddings, and display properties.",
+        "key_interactions": "Used by various HTML elements to apply consistent spacing and layout without redundant CSS."
+      }
+    ]
+  },
+  "key_enhancements": {
+    "route_naming_conventions": {
+      "consistent_naming": "Ensure that all backend API routes follow a consistent naming convention (e.g., snake_case or kebab-case).",
+      "descriptive_endpoints": "Names should clearly describe the action or resource.",
+      "versioning": "Incorporate API versioning to manage changes without disrupting existing frontend functionalities.",
+      "avoid_renaming_critical_routes": {
+        "simultaneous_updates": "All frontend references are updated concurrently.",
+        "aliases_or_redirects": "Utilize aliases or redirect routes temporarily to prevent breaking changes.",
+        "backward_compatibility": "Maintain backward compatibility for a transitional period."
+      },
+      "centralized_route_definitions": {
+        "backend": "Define all routes in a single location (e.g., app/routes.py).",
+        "frontend": "Define all routes in a single location (e.g., app/static/js/routes.js)."
+      }
+    },
+    "preventing_route_renaming_issues": {
+      "documentation": "Maintain up-to-date documentation of all API endpoints.",
+      "automated_testing": "Implement integration tests that verify the connectivity between frontend API calls and backend routes.",
+      "linting_static_analysis": "Use linters or static analysis tools to catch inconsistencies between frontend and backend route references.",
+      "continuous_integration": "Set up CI pipelines that run tests ensuring any changes to routes are validated against frontend expectations."
+    },
+    "comprehensive_documentation_standards": {
+      "comprehensive_docstrings": "Ensure that all functions, classes, and modules have clear and descriptive docstrings.",
+      "readme_api_documentation": "Maintain a README.md summarizing the application and generate API documentation using tools like Swagger or ReDoc.",
+      "change_logs": "Implement a changelog to track modifications, especially those related to API routes or critical functionalities."
+    },
+    "error_handling_enhancements": {
+      "centralized_error_management": "Implement a centralized error handler in FastAPI.",
+      "frontend_error_handling": "Ensure that frontend components gracefully handle API errors."
+    },
+    "scalability_modularity": {
+      "modular_codebase": "Organize code into well-defined modules and packages.",
+      "service_decoupling": "Design services to operate independently, minimizing tight coupling and facilitating parallel development."
+    }
+  }
+}

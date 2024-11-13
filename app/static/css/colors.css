@@ -1,0 +1,477 @@
+/* Default color scheme */
+body {
+--primary: #00FFFF;
+    --secondary: #1E90FF;
+    --highlight: #FF00FF;
+    --success-color: #32CD32;
+    --error-color: #FF4500;
+    --background-dark: #0D0D0D;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B0C4DE;
+    --border-color: #4682B4;
+    --input-background: #1A1A1A;
+    --accent-color: var(--primary);
+    --color-white-05: #FFFFFF0D;
+    --color-white-10: #FFFFFF1A;
+    --color-white-20: #FFFFFF33;
+    --color-black-70: #000000B3;
+    --shadow-color: #FFFFFF1A;
+    --glowing-section: 0 0 10px 2px var(--highlight);
+}
+
+/* Complementary Color Scheme */
+.complementary {
+    --primary: #007ACC;
+    /* Blue */
+    --secondary: #FF5722;
+    /* Orange */
+    --highlight: #FFD700;
+    /* Gold */
+    --success-color: #32CD32;
+    /* Lime Green */
+    --error-color: #FF4500;
+    /* OrangeRed */
+    --background-dark: #0D0D0D;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B0C4DE;
+    --border-color: #4682B4;
+    --input-background: #1A1A1A;
+    --accent-color: var(--primary);
+    --shadow-color: #FFFFFF1A;
+    --glowing-section: 0 0 10px 2px var(--highlight);
+}
+
+/* Analogous Color Scheme */
+.analogous {
+    --primary: #007ACC;
+    /* Blue */
+    --secondary: #1E90FF;
+    /* Dodger Blue */
+    --highlight: #00FFFF;
+    /* Aqua */
+    --success-color: #32CD32;
+    /* Lime Green */
+    --error-color: #FF4500;
+    /* OrangeRed */
+    --background-dark: #0D0D0D;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B0C4DE;
+    --border-color: #4682B4;
+    --input-background: #1A1A1A;
+    --accent-color: var(--primary);
+    --shadow-color: #FFFFFF1A;
+    --glowing-section: 0 0 10px 2px var(--highlight);
+}
+
+/* Triadic Color Scheme */
+.triadic {
+    --primary: #FF4500;
+    /* Orange Red */
+    --secondary: #32CD32;
+    /* Lime Green */
+    --highlight: #1E90FF;
+    /* Dodger Blue */
+    --success-color: #32CD32;
+    /* Lime Green */
+    --error-color: #FF4500;
+    /* OrangeRed */
+    --background-dark: #0D0D0D;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B0C4DE;
+    --border-color: #4682B4;
+    --input-background: #1A1A1A;
+    --accent-color: var(--primary);
+    --shadow-color: #FFFFFF1A;
+    --glowing-section: 0 0 10px 2px var(--highlight);
+}
+
+/* Split-Complementary Color Scheme */
+.split-complementary {
+    --primary: #007ACC;
+    /* Blue */
+    --secondary: #FF4500;
+    /* Orange Red */
+    --highlight: #FFD700;
+    /* Gold */
+    --success-color: #32CD32;
+    /* Lime Green */
+    --error-color: #FF4500;
+    /* OrangeRed */
+    --background-dark: #0D0D0D;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B0C4DE;
+    --border-color: #4682B4;
+    --input-background: #1A1A1A;
+    --accent-color: var(--primary);
+    --shadow-color: #FFFFFF1A;
+    --glowing-section: 0 0 10px 2px var(--highlight);
+}
+
+/* Monochromatic Color Scheme */
+.monochromatic {
+    --primary: #1E90FF;
+    /* Dodger Blue */
+    --secondary: #4682B4;
+    /* Steel Blue */
+    --highlight: #87CEFA;
+    /* Light Sky Blue */
+    --success-color: #00BFFF;
+    /* Deep Sky Blue */
+    --error-color: #1E90FF;
+    /* Dodger Blue */
+    --background-dark: #0D0D0D;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B0C4DE;
+    --border-color: #4682B4;
+    --input-background: #1A1A1A;
+    --accent-color: var(--primary);
+    --shadow-color: #FFFFFF1A;
+    --glowing-section: 0 0 10px 2px var(--highlight);
+}
+
+/* Nature-Inspired Color Scheme */
+.nature {
+    --primary: #556B2F;
+    /* Dark Olive Green */
+    --secondary: #8FBC8F;
+    /* Dark Sea Green */
+    --highlight: #ADFF2F;
+    /* Green Yellow */
+    --success-color: #32CD32;
+    /* Lime Green */
+    --error-color: #FF4500;
+    /* OrangeRed */
+    --background-dark: #0D0D0D;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B0C4DE;
+    --border-color: #2E8B57;
+    /* Sea Green */
+    --input-background: #1A1A1A;
+    --accent-color: var(--primary);
+    --shadow-color: #FFFFFF1A;
+    --glowing-section: 0 0 10px 2px var(--highlight);
+}
+
+/* Pastel Color Scheme */
+.pastel {
+    --primary: #FFB6C1;
+    /* Light Pink */
+    --secondary: #FFE4E1;
+    /* Misty Rose */
+    --highlight: #FFDAB9;
+    /* Peach Puff */
+    --success-color: #E6E6FA;
+    /* Lavender */
+    --error-color: #FF69B4;
+    /* Hot Pink */
+    --background-dark: #0D0D0D;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B0C4DE;
+    --border-color: #D8BFD8;
+    /* Thistle */
+    --input-background: #1A1A1A;
+    --accent-color: var(--primary);
+    --shadow-color: #FFFFFF1A;
+    --glowing-section: 0 0 10px 2px var(--highlight);
+}
+
+/* Vibrant Neon Color Scheme */
+.neon {
+    --primary: #39FF14;
+    /* Neon Green */
+    --secondary: #FF073A;
+    /* Red Salsa */
+    --highlight: #FFD700;
+    /* Neon Gold */
+    --success-color: #39FF14;
+    /* Neon Green */
+    --error-color: #FF073A;
+    /* Red Salsa */
+    --background-dark: #0D0D0D;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B0C4DE;
+    --border-color: #39FF14;
+    /* Neon Green */
+    --input-background: #1A1A1A;
+    --accent-color: var(--primary);
+    --shadow-color: #FFFFFF1A;
+    --glowing-section: 0 0 10px 2px var(--highlight);
+}
+
+/* Warm Earthy Color Scheme */
+.earthy {
+    --primary: #8B4513;
+    /* Saddle Brown */
+    --secondary: #D2691E;
+    /* Chocolate */
+    --highlight: #CD853F;
+    /* Peru */
+    --success-color: #32CD32;
+    /* Lime Green */
+    --error-color: #FF4500;
+    /* OrangeRed */
+    --background-dark: #0D0D0D;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B0C4DE;
+    --border-color: #A0522D;
+    /* Sienna */
+    --input-background: #1A1A1A;
+    --accent-color: var(--primary);
+    --shadow-color: #FFFFFF1A;
+    --glowing-section: 0 0 10px 2px var(--highlight);
+}
+
+/* Dark Luxury Color Scheme */
+.dark-luxury {
+    --primary: #4B0082;
+    /* Indigo */
+    --secondary: #8A2BE2;
+    /* Blue Violet */
+    --highlight: #FFD700;
+    /* Gold */
+    --success-color: #32CD32;
+    /* Lime Green */
+    --error-color: #FF4500;
+    /* OrangeRed */
+    --background-dark: #0D0D0D;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B0C4DE;
+    --border-color: #6A5ACD;
+    /* Slate Blue */
+    --input-background: #1A1A1A;
+    --accent-color: var(--primary);
+    --shadow-color: #FFFFFF1A;
+    --glowing-section: 0 0 10px 2px var(--highlight);
+}
+
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-light: #1C1C1C;
+        --background-white: #2C2C2C;
+        --text-primary: #ECEFF1;
+        --text-secondary: #B0BEC5;
+        --border-color: #37474F;
+        --input-background: #263238;
+    }
+}
+
+/* Default Light Mode */
+body.light-mode {
+    --primary: #0056b3;
+    /* Darker Blue */
+    --secondary: #ff6600;
+    /* Bright Orange */
+    --highlight: #ffc107;
+    /* Golden Yellow */
+    --success-color: #28a745;
+    /* Dark Lime Green */
+    --error-color: #dc3545;
+    /* Dark Red */
+    --background-light: #f8f9fa;
+    /* Light Gray for backgrounds */
+    --background-dark: #ffffff;
+    /* Pure White */
+    --text-primary: #212529;
+    /* Dark Charcoal */
+    --text-secondary: #495057;
+    /* Medium Charcoal */
+    --border-color: #ced4da;
+    /* Light Gray for borders */
+    --input-background: #ffffff;
+    /* White for inputs */
+    --accent-color: var(--primary);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    /* Soft shadow for depth */
+    --glowing-section: 0 0 10px 2px var(--highlight);
+}
+
+/* Light Complementary Color Scheme */
+.light-complementary {
+    --primary: #0056b3;
+    /* Balanced Blue */
+    --secondary: #e36209;
+    /* Rich Orange */
+    --highlight: #ffdd57;
+    /* Soft yet bright Yellow */
+    --success-color: #32cd32;
+    /* Lime Green */
+    --error-color: #dc3545;
+    /* Dark Red */
+    --background-light: #f8f9fa;
+    /* Off-white for light mode */
+    --background-dark: #ffffff;
+    /* Pure White */
+    --text-primary: #212529;
+    /* Dark Charcoal */
+    --text-secondary: #495057;
+    /* Medium Charcoal */
+    --border-color: #adb5bd;
+    /* Mid Gray */
+    --input-background: #ffffff;
+    /* Pure White */
+    --accent-color: var(--primary);
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    /* Defined shadow for depth */
+    --glowing-section: 0 0 10px 2px var(--highlight);
+}
+
+/* Light Analogous Color Scheme */
+.light-analogous {
+    --primary: #007bff;
+    /* Balanced Blue */
+    --secondary: #1e90ff;
+    /* Sky Blue */
+    --highlight: #40e0d0;
+    /* Turquoise */
+    --success-color: #32cd32;
+    /* Lime Green */
+    --error-color: #ff4500;
+    /* Orange Red */
+    --background-light: #f8f9fa;
+    /* Light Gray */
+    --background-dark: #ffffff;
+    /* Pure White */
+    --text-primary: #212529;
+    /* Dark Charcoal */
+    --text-secondary: #495057;
+    /* Medium Charcoal */
+    --border-color: #adb5bd;
+    /* Mid Gray */
+    --input-background: #ffffff;
+    /* White */
+    --accent-color: var(--primary);
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    /* Medium shadow */
+    --glowing-section: 0 0 10px 2px var(--highlight);
+}
+
+/* Light Triadic Color Scheme */
+.light-triadic {
+    --primary: #007bff;
+    /* Blue */
+    --secondary: #ff6600;
+    /* Orange */
+    --highlight: #28a745;
+    /* Green */
+    --success-color: #28a745;
+    --error-color: #dc3545;
+    --background-light: #f8f9fa;
+    --background-dark: #ffffff;
+    --text-primary: #212529;
+    --text-secondary: #495057;
+    --border-color: #ced4da;
+    --input-background: #ffffff;
+    --accent-color: var(--primary);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --glowing-section: 0 0 10px 2px var(--highlight);
+}
+
+/* Light Split-Complementary Color Scheme */
+.light-split-complementary {
+    --primary: #007bff;
+    /* Blue */
+    --secondary: #28a745;
+    /* Green */
+    --highlight: #ffc107;
+    /* Yellow */
+    --success-color: #28a745;
+    --error-color: #dc3545;
+    --background-light: #f1f3f5;
+    /* Slightly darker to enhance contrast */
+    --background-dark: #ffffff;
+    --text-primary: #212529;
+    --text-secondary: #495057;
+    --border-color: #ced4da;
+    --input-background: #ffffff;
+    --accent-color: var(--primary);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --glowing-section: 0 0 10px 2px var(--highlight);
+}
+
+/* Light Monochromatic Color Scheme */
+.light-monochromatic {
+    --primary: #0056b3;
+    /* Dark Blue */
+    --secondary: #6c757d;
+    /* Gray */
+    --highlight: #ced4da;
+    /* Light Gray */
+    --success-color: #28a745;
+    --error-color: #dc3545;
+    --background-light: #e2e6ea;
+    /* Lighter Gray */
+    --background-dark: #ffffff;
+    --text-primary: #212529;
+    --text-secondary: #495057;
+    --border-color: #ced4da;
+    --input-background: #ffffff;
+    --accent-color: var(--primary);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --glowing-section: 0 0 10px 2px var(--highlight);
+}
+
+/* colors.css */
+
+/* Light Complementary Color Scheme */
+.light-complementary {
+    /* Existing variables ... */
+    --background-hover: rgba(240, 240, 240, 0.7); /* Example value */
+    --button-background: var(--accent-color);
+    --button-text: var(--text-primary);
+    --success-background: var(--success-color);
+    --error-background: var(--error-color);
+    --sidebar-background: rgba(0, 0, 0, 0.05); /* Adjust based on light mode */
+    --output-bubble-background-light: var(--color-white-10);
+    --user-background: var(--accent-color);
+    /* Add any other necessary variables */
+}
+
+/* Dark Mode */
+.dark-mode {
+    /* Existing variables ... */
+    --background-hover: rgba(13, 13, 13, 0.7); /* Example value */
+    --button-background: var(--accent-color);
+    --button-text: var(--text-primary);
+    --success-background: var(--success-color);
+    --error-background: var(--error-color);
+    --sidebar-background: rgba(255, 255, 255, 0.05);
+    --output-bubble-background-dark: var(--color-white-10);
+    --user-background: var(--accent-color);
+    /* Add any other necessary variables */
+}
+
+
+/* Applying a similar adjustment to all light modes */
+.light-mode-default,
+.light-nature,
+.light-pastel,
+.light-neon,
+.light-earthy,
+.light-dark-luxury {
+    --primary: #0056b3;
+    --secondary: #17a2b8;
+    --highlight: #ffc107;
+    --success-color: #28a745;
+    --error-color: #dc3545;
+    --background-light: #f8f9fa;
+    --background-dark: #ffffff;
+    --text-primary: #212529;
+    --text-secondary: #495057;
+    --border-color: #ced4da;
+    --input-background: #ffffff;
+    --accent-color: var(--primary);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --glowing-section: 0 0 10px 2px var(--highlight);
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --background-light: #f8f9fa;
+        --background-dark: #ffffff;
+        --text-primary: #212529;
+        --text-secondary: #495057;
+        --border-color: #ced4da;
+        --input-background: #ffffff;
+    }
+}

@@ -1,0 +1,65 @@
+/* Chat Bubbles for Output and User Input */
+.output-bubble,
+.user-input-bubble {
+    width: 95%;
+    max-width: 100%;
+    padding: var(--spacing-md);
+    /* e.g., 15px */
+    border-radius: var(--border-radius-15);
+    word-wrap: break-word;
+    background: var(--bubble-background);
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: var(--spacing-md);
+    /* e.g., 15px */
+    position: relative;
+    overflow: hidden;
+    /* Changed from visible to hidden for better layout control */
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    /* Added specific transitions for relevant properties */
+}
+
+.output-bubble {
+    align-self: flex-start;
+    background-color: var(--output-background);
+    color: var(--text-primary);
+    /* Reflect: Consistent color for output bubbles to differentiate from user inputs */
+}
+
+.user-input-bubble {
+    align-self: flex-end;
+    background-color: var(--user-background);
+    color: var(--text-primary);
+    /* Reflect: Highlight user messages with accent color for distinction */
+}
+
+.output-bubble::before,
+.user-input-bubble::before {
+    content: none;
+    /* Reflect: Removed pseudo-elements for cleaner design */
+}
+
+/* Define bubble backgrounds in color schemes */
+.light-complementary {
+    --bubble-background: var(--background-light);
+    --output-background: var(--output-bubble-background-light);
+    --user-background: var(--accent-color);
+}
+
+.dark-mode {
+    --bubble-background: var(--background-dark);
+    --output-background: var(--output-bubble-background-dark);
+    --user-background: var(--accent-color);
+}
+
+/* Example definitions for output and user bubble backgrounds */
+.light-complementary {
+    --output-bubble-background-light: var(--color-white-10);
+    --user-background: var(--accent-color);
+}
+
+.dark-mode {
+    --output-bubble-background-dark: var(--color-white-10);
+    --user-background: var(--accent-color);
+}

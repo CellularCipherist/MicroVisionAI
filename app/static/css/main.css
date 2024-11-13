@@ -1,0 +1,28 @@
+/* main.css */
+
+@import 'chat.css';
+@import 'color-scheme-selector.css';
+@import 'colors.css';
+@import 'drag-drop.css';
+@import 'layout.css';
+@import 'macro-script.css';
+@import 'messages.css';
+@import 'responsive.css';
+@import 'sidebar.css';
+@import 'utilities.css';
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-dark);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Optional: Transition for Theme Changes */
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
