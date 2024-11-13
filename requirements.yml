@@ -1,0 +1,16 @@
+name: fijiai
+channels:
+  - defaults
+dependencies:
+  - python=3.8
+  - pip
+  - pip:
+    - fastapi
+    - uvicorn
+    - anthropic
+    - imagej
+    - scyjava
+    - jpype1
+    - Pillow
+    - pyyaml
+    - python-dotenv

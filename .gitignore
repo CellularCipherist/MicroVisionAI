@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.env
+.vscode/
+*.log
+app/uploads/
+combined_chat_interface.txt
