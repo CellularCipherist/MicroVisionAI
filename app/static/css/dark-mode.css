@@ -1,0 +1,60 @@
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+.dark-mode .chat-log {
+    background-color: #2d2d2d;
+}
+
+.dark-mode .chat-message {
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+}
+
+.dark-mode .macro-script-window {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+}
+
+.dark-mode .macro-script-content {
+    background-color: #1e1e1e;
+}
+
+.dark-mode .macro-script-content code {
+    color: #d4d4d4;
+}
+
+/* Syntax highlighting for dark mode */
+.dark-mode .hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    background: #1e1e1e;
+    color: #dcdcdc;
+}
+
+.dark-mode .hljs-keyword,
+.dark-mode .hljs-selector-tag,
+.dark-mode .hljs-tag,
+.dark-mode .hljs-name {
+    color: #569cd6;
+}
+
+.dark-mode .hljs-attribute,
+.dark-mode .hljs-selector-id,
+.dark-mode .hljs-string,
+.dark-mode .hljs-selector-attr,
+.dark-mode .hljs-selector-pseudo,
+.dark-mode .hljs-addition {
+    color: #ce9178;
+}
+
+.dark-mode .hljs-comment,
+.dark-mode .hljs-quote,
+.dark-mode .hljs-meta {
+    color: #6a9955;
+}
+
+/* Add more syntax highlighting styles as needed */

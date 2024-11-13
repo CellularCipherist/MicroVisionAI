@@ -1,0 +1,159 @@
+/* Sidebar Styles */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 12.5%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-right: 1px solid var(--border-color);
+    box-shadow: 0 0 10px var(--glow-color);
+    transition: width 0.3s ease, transform 0.3s ease;
+    overflow-y: auto;
+    z-index: 1000;
+    /* Reflect: Sidebar width and transitions should not conflict with main content */
+}
+
+.sidebar.collapsed {
+    width: 2.5%;
+    /* Reflect: Collapsed state for sidebar to maximize content area */
+}
+
+.sidebar-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    /* Reflect: Toggle button for sidebar responsiveness */
+}
+
+.sidebar-toggle:hover {
+    background-color: var(--color-white-10);
+    /* Reflect: Visual feedback on hover for better user interaction */
+}
+
+.sidebar-toggle img {
+    width: 20px;
+    height: 15px;
+    transition: transform 0.3s ease;
+    /* Reflect: Animation for clear indication of state changes */
+}
+
+.sidebar.collapsed .sidebar-toggle img {
+    transform: rotate(180deg);
+    /* Reflect: Rotate icon for visual clarity on sidebar state */
+}
+
+.sidebar-content {
+    padding: 20px;
+    padding-top: 50px;
+    /* Reflect: Adequate padding for readability and aesthetic */
+}
+
+#image-preview-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* Reflect: Consistent spacing for image previews */
+}
+
+.image-preview {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    /* 1:1 Aspect Ratio */
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    /* Reflect: Cohesive design with subtle transitions */
+}
+
+.image-preview img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Reflect: Proper image fitting for preview elements */
+}
+
+.image-preview:hover {
+    box-shadow: 0 0 15px var(--glow-color);
+    /* Reflect: Highlight images on hover to engage users */
+}
+
+.image-preview .file-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: var(--text-primary);
+    padding: 5px;
+    font-size: 12px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /* Reflect: Legible filenames with clear text wrapping */
+}
+
+.image-preview .remove-image {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: var(--text-primary);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 12px;
+    z-index: 1000;
+    /* Reflect: Interactive remove button with clear functionality */
+}
+
+.sidebar.collapsed .sidebar-content,
+.sidebar.collapsed .image-preview .file-name {
+    display: none;
+    /* Reflect: Minimize content in collapsed state for focus on main view */
+}
+
+/* Responsive Adjustments for Sidebar */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 8%;
+    }
+
+    .sidebar.collapsed {
+        width: 3%;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 15%;
+    }
+
+    .sidebar.collapsed {
+        width: 5%;
+    }
+
+    .sidebar-toggle {
+        width: 25px;
+        height: 25px;
+    }
+}

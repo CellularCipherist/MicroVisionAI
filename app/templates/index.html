@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FijiAI - ImageJ Macro Execution and Chat</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <link rel="stylesheet" href="static/css/main.css">
+    <link rel="stylesheet" href="static/css/colors.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sidebar for Image Previews -->
+        <div class="sidebar collapsed" id="sidebar">
+            <div class="sidebar-toggle" id="sidebar-toggle">
+                <img src="/static/icons/toggle.png" alt="Toggle Sidebar">
+            </div>
+            <div class="sidebar-content">
+                <div id="image-preview-container"></div>
+            </div>
+        </div>
+
+        <!-- Left Column: ImageJ Macro Execution -->
+        <div class="left-column">
+            <h2>ImageJ Macro Execution</h2>
+            <div id="drop-zone" class="drop-zone">
+                <p>Drag and drop images here or click to select files</p>
+            </div>
+            <form id="image-upload-form" action="/upload-image/" method="post" enctype="multipart/form-data">
+                <input type="file" id="images" name="files" multiple accept="image/*" style="display: none;">
+                <div id="macro-preview-container" class="image-previews"></div>
+                <textarea name="macro_script" id="macro_script" rows="10"
+                    placeholder="Enter macro script..."></textarea>
+                <button type="submit" id="upload-btn" name="upload-btn">Upload Images and Execute Macro</button>
+            </form>
+            <div id="spinner-container" class="spinner-container" style="display: none;">
+                <div class="spinner"></div>
+                <p>Processing images... Please wait.</p>
+            </div>
+            <div id="execution-results"></div>
+        </div>
+
+        <!-- Right Column: Chat Interface -->
+        <div class="right-column">
+            <h2>Design Custom ImageJ Workflows with Atlas</h2>
+            <div class="chat-container">
+                <div id="chat-log-container" class="chat-log">
+                    <div id="chat-log"></div>
+                </div>
+                <form id="chat-form" action="/stream_generate_macro/" method="post">
+                    <div class="chat-input-container">
+                        <button type="button" id="attach-btn" class="attach-icon">
+                            <img src="/static/icons/paperclip.png" alt="Attach">
+                        </button>
+                        <textarea id="user-input" name="input" placeholder="Ask Atlas a question"></textarea>
+                        <div style="display: flex; align-items: center;">
+                            <input type="checkbox" id="improve-prompt" name="improve_prompt">
+                            <label for="improve-prompt" style="margin-left: 5px;">Improve prompt?</label>
+                        </div>
+                        <!-- Added Model Choice Dropdown -->
+                        <div style="display: flex; align-items: center; margin-left: 10px;">
+                            <label for="model-choice" style="margin-right: 5px;">AI Model:</label>
+                            <select id="model-choice" name="model_choice">
+                                <option value="anthropic">Anthropic Claude</option>
+                                <option value="openai">OpenAI GPT-4o</option>
+                            </select>
+                        </div>
+                        <button type="submit" id="chat-submit-btn">
+                            <img src="/static/icons/send.png" alt="Send">
+                        </button>
+                    </div>
+                    <input type="file" id="chat-file-input" accept="image/*" style="display: none;">
+                </form>
+            </div>
+        </div>
+
+        <!-- Dropdown for Color Scheme Selection -->
+        <div class="color-scheme-selector">
+            <label for="color-scheme-select">Choose a color scheme:</label>
+            <select id="color-scheme-select">
+                <option value="complementary">Complementary</option>
+                <option value="analogous">Analogous</option>
+                <option value="triadic">Triadic</option>
+                <option value="split-complementary">Split-Complementary</option>
+                <option value="monochromatic">Monochromatic</option>
+                <option value="nature">Nature-Inspired</option>
+                <option value="pastel">Pastel</option>
+                <option value="neon">Neon</option>
+                <option value="earthy">Earthy</option>
+                <option value="dark-luxury">Dark Luxury</option>
+                <option value="light-complementary">Light Complementary</option>
+                <option value="light-analogous">Light Analogous</option>
+                <option value="light-triadic">Light Triadic</option>
+                <option value="light-split-complementary">Light Split-Complementary</option>
+                <option value="light-monochromatic">Light Monochromatic</option>
+                <option value="light-default">Light Default</option>
+            </select>
+        </div>
+
+        <!-- JS Scripts -->
+        <script type="module" src="/static/js/main.js"></script>
+        <script type="module" src="/static/js/colorSchemeSwitcher.js"></script>
+</body>
+
+</html>

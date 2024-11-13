@@ -1,0 +1,239 @@
+/* General Utility Classes */
+
+/* Flex Utilities */
+.flex {
+    display: flex;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.flex-center {
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-start {
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.flex-space-between {
+    justify-content: space-between;
+}
+
+/* Grid Utilities */
+.grid {
+    display: grid;
+}
+
+.grid-auto {
+    grid-auto-flow: row;
+}
+
+.grid-gap {
+    gap: 10px;
+}
+
+/* Width and Height Utilities */
+.w-100 {
+    width: 100%;
+}
+
+.max-w-100 {
+    max-width: 100%;
+}
+
+.h-100 {
+    height: 100%;
+}
+
+.max-h-100 {
+    max-height: 100%;
+}
+
+/* Margin and Padding Utilities */
+.m-0 {
+    margin: 0;
+}
+
+.mb-15 {
+    margin-bottom: 15px;
+}
+
+.mt-15 {
+    margin-top: 15px;
+}
+
+.p-10 {
+    padding: 10px;
+}
+
+.p-15 {
+    padding: 15px;
+}
+
+.pb-20 {
+    padding-bottom: 20px;
+}
+
+.pt-20 {
+    padding-top: 20px;
+}
+
+/* Box-Sizing */
+.box-sizing-border {
+    box-sizing: border-box;
+}
+
+/* Border Radius */
+.border-radius-5 {
+    border-radius: 5px;
+}
+
+.border-radius-10 {
+    border-radius: 10px;
+}
+
+.border-radius-15 {
+    border-radius: 15px;
+}
+
+/* Text Alignment */
+.text-center {
+    text-align: center;
+}
+
+/* Transition Effects */
+.transition-ease {
+    transition: all 0.3s ease;
+}
+
+.transition-bg-color {
+    transition: background-color 0.3s ease;
+}
+
+.transition-box-shadow {
+    transition: box-shadow 0.3s ease;
+}
+
+/* Shadow and Glow Effects */
+.box-shadow {
+    box-shadow: 0 0 10px var(--shadow-color);
+}
+
+.glow {
+    box-shadow: 0 0 10px var(--glowing-section);
+}
+
+.glow-strong {
+    box-shadow: 0 0 15px var(--accent-color);
+}
+
+/* Hover Effects */
+.hover-shadow {
+    transition: box-shadow 0.2s ease;
+}
+
+.hover-bg-highlight:hover {
+    background-color: var(--highlight);
+}
+
+/* Visibility */
+.visible {
+    visibility: visible;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+/* Overflow */
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.overflow-auto {
+    overflow-y: auto;
+}
+
+/* Z-Index */
+.z-index-0 {
+    z-index: 0;
+}
+
+.z-index-1 {
+    z-index: 1;
+}
+
+.z-index-10 {
+    z-index: 10;
+}
+
+.z-index-1000 {
+    z-index: 1000;
+}
+
+/* Custom Utility Classes for Specific Needs */
+
+/* Used for no scrolling where not desired */
+.no-scroll {
+    overflow: hidden;
+}
+
+/* Enables auto-scrolling within elements */
+.auto-scroll {
+    overflow-y: auto;
+}
+
+/* Divider for sections */
+.section-divider {
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 20px 0;
+    /* Reflect: Subtle separation between sections */
+}
+
+/* Button Styling */
+.button-primary {
+    cursor: pointer;
+    border: none;
+    background-color: var(--accent-color);
+    color: var(--text-primary);
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.button-primary:hover {
+    background-color: var(--secondary);
+    transform: translateY(-2px);
+}
+
+.button-primary:active {
+    transform: translateY(0);
+}
+
+/* Specific Transition Rules */
+.specific-transition {
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.image-transition {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Loading Indicator Styles */
+.loading-indicator {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    z-index: 1001;
+}
+
+.loading-indicator.visible {
+    display: block;
+}

@@ -1,0 +1,32 @@
+.color-scheme-selector {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    text-align: center;
+    background-color: var(--input-background);
+    padding: 12px 18px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    /* Reflect: Ensure the selector integrates with overall design language for coherence */
+}
+
+.color-scheme-selector select {
+    padding: 10px 14px;
+    font-size: 14px;
+    color: var(--text-primary);
+    background-color: var(--input-background);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    /* Reflect: Transitions add responsiveness and improve interaction feedback */
+}
+
+.color-scheme-selector select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 8px var(--accent-color);
+    /* Reflect: Visual feedback during focus state enhances usability */
+}

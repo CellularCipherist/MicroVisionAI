@@ -1,0 +1,44 @@
+# FijiAI Configuration
+
+# Application settings
+app:
+  secret_key: 'your_secret_key'
+  debug: true
+
+# Paths
+paths:
+  imagej_dir: '/home/alex/ImageJ_Project/Fiji.app'
+  bioformats_dir: '/home/alex/ImageJ_Project/Fiji.app/plugins/bio-formats_plugins-7.3.1.jar'
+  template_dir: 'app/templates'
+  static_dir: 'app/static'
+  upload_dir: 'app/uploads'
+  macro_template: 'app/templates/macros/headless_macro_template.ijm'
+  conversion_template: 'app/templates/macros/conversion_macro.ijm'
+
+# API keys
+api_keys:
+  anthropic: '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'
+  openai: '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'
+
+# Authentication
+auth:
+  username: 'admin'
+  password: 'pbkdf2:sha256:260000$1lgFgvjdKQGinWz1$2f50b533c0ed222b243c69a460e65b2df972748592151f0d49d045ea1e5d95f0'
+
+# Logging
+logging:
+  level: 'INFO'
+  format: '%(asctime)s - %(levelname)s - %(message)s'
+
+# ImageJ settings
+imagej:
+  mode: 'headless'
+
+# AI model settings
+claude:
+  model: 'claude-3-5-sonnet-20241022'
+  max_tokens: 2500
+
+openai:
+  model: 'gpt-4o-2024-08-06'
+  max_tokens: 2500

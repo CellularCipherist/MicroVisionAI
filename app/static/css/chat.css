@@ -1,0 +1,594 @@
+/**
+ * Main chat container styles for layout and alignment.
+ * Uses flexbox for vertical stacking of child elements.
+ */
+.chat-container {
+    display: flex;
+    /* Flexible box layout for adaptability */
+    flex-direction: column;
+    /* Stacks child elements vertically */
+    height: 100%;
+    /* Full height for container to occupy entire space */
+    /*.................................................................................................................*/
+    /* Reflecting: Ensuring container height is consistent across different screen sizes for full usability. */
+}
+
+/* Chat Log Styling */
+.chat-log {
+    flex-grow: 1;
+    /* Allows the chat log to expand */
+    max-height: calc(100vh - 200px);
+    /* Limits height to leave space for chat input */
+    overflow-y: auto;
+    /* Enables scrolling for overflow content */
+    padding: 15px;
+    margin-bottom: 10px;
+    background: var(--color-white-05);
+    border-radius: 10px;
+    box-sizing: border-box;
+    transition: max-height 0.3s ease;
+}
+
+
+/**
+ * Individual chat message container.
+ * Handles alignment and smooth transitions for displaying messages.
+ */
+.chat-message {
+    display: flex;
+    /* Uses flex for easy alignment of messages */
+    flex-direction: column;
+    /* Stacks sender and message content vertically */
+    margin-bottom: 15px;
+    /* Space below each message for readability */
+    transition: all 0.3s ease;
+    /* Smooth transition for new messages */
+    /*.................................................................................................................*/
+    /* Reflecting: Checking how smooth transitions affect the loading and removal of messages to keep flow natural. */
+}
+
+/**
+ * Styling for the sender's name within a message.
+ * Bold styling to differentiate from message content.
+ */
+.chat-message span {
+    font-weight: bold;
+    /* Differentiates sender name with bold styling */
+    margin-bottom: 5px;
+    /* Space between sender name and message */
+    /*.................................................................................................................*/
+    /* Reflecting: Reviewing consistency in spacing and boldness for sender names across different themes. */
+}
+
+/**
+ * Message content area within a chat message.
+ * Uses smooth transitions and wraps long words or lines.
+ */
+.chat-message .message-content {
+    background-color: var(--color-white-05);
+    /* Matches log background for uniformity */
+    padding: 10px;
+    /* Inner spacing for message content */
+    border-radius: 8px;
+    /* Rounded corners for a unified design */
+    white-space: pre-wrap;
+    /* Preserves formatting of whitespace */
+    word-wrap: break-word;
+    /* Ensures long words wrap to fit */
+    transition: all 0.3s ease;
+    /* Smooth visual transitions */
+    /*.................................................................................................................*/
+    /* Reflecting: Verifying that all message contents render correctly with proper wrapping and no overflow issues. */
+}
+
+/**
+ * Styles for both output and user input bubbles.
+ * Includes common styles for padding, width, and word wrapping.
+ */
+.output-bubble,
+.user-input-bubble {
+    width: 100%;
+    /* Full width utilization for uniformity */
+    max-width: 100%;
+    /* Prevents overflow beyond parent */
+    padding: 15px;
+    /* Padding inside message bubbles */
+    border-radius: 15px;
+    /* Rounded corners for bubble shape */
+    position: relative;
+    /* Allows for easy positioning of elements within */
+    overflow: hidden;
+    /* Hides overflow for a clean look */
+    margin-bottom: 15px;
+    /* Space below each bubble for separation */
+    word-wrap: break-word;
+    /* Prevents overflow from long words */
+    transition: all 0.3s ease;
+    /* Smooth animations on changes */
+    /*.................................................................................................................*/
+    /* Reflecting: Ensuring bubble resizing and transitions remain smooth, even with variable message lengths. */
+}
+
+/**
+ * Styles specifically for the output message bubble.
+ * Aligns to the start of the container with a slightly darker background.
+ */
+.output-bubble {
+    background-color: var(--color-white-10);
+    /* Darker shade for distinguishing output */
+    align-self: flex-start;
+    /* Aligns bubble to the start */
+    /*.................................................................................................................*/
+    /* Reflecting: Confirming consistent alignment for output bubbles, keeping user perspective in mind. */
+}
+
+/**
+ * Styles specifically for the user input message bubble.
+ * Uses accent color and primary text color for user inputs.
+ */
+.user-input-bubble {
+    background-color: var(--accent-color-dark);
+    /* Uses accent color for user bubbles */
+    color: var(--text-primary);
+    /* Ensures primary text color is readable */
+    align-self: flex-end;
+    /* Aligns input bubbles to the right */
+    transition: background-color 0.3s ease;
+    /* Smooth transition for visual feedback */
+    /*.................................................................................................................*/
+    /* Reflecting: Checking visual contrast and readability of user input bubbles across themes. */
+}
+
+.macro-script-window {
+    width: 100%;
+    /* Full width to integrate smoothly with layout */
+    background-color: var(--dark-background);
+    /* Ensures dark mode consistency */
+    border-radius: 8px;
+    /* Rounded edges for visual coherence */
+    margin-top: 10px;
+    /* Space above macro script window */
+    overflow: hidden;
+    /* Prevents content overflow */
+    color: var(--text-primary-light);
+    /* Uses light text for readability */
+    transition: all 0.3s ease;
+    /* Smooth transitions on updates */
+    /*.................................................................................................................*/
+    /* Reflecting: Ensuring macro script windows are fully responsive and maintain readability. */
+}
+
+/* Ensure any dark mode classes from index.html are properly applied */
+body.dark-mode .macro-script-window {
+    background-color: #1e1e1e;
+    /* Matches dark mode styling */
+    color: #d4d4d4;
+    /* Light text for contrast */
+    /*.................................................................................................................*/
+    /* Reflecting: Consistency check with dark mode styling to ensure user interface looks seamless. */
+}
+
+/**
+ * Header section of the macro script window.
+ * Bold, white text on a slightly lighter background.
+ */
+.macro-script-header {
+    background-color: #252526;
+    /* Sets background lighter than main area */
+    color: #ffffff;
+    /* White text for header */
+    padding: 10px;
+    /* Adds padding around header text */
+    font-weight: bold;
+    /* Bold text for emphasis */
+    /*.................................................................................................................*/
+    /* Reflecting: Ensuring that header visibility and text prominence are adequate under various lighting conditions. */
+}
+
+/**
+ * Content area of the macro script window for displaying code.
+ * Manages vertical scrolling and ensures correct font for code readability.
+ */
+.macro-script-content {
+    padding: 10px;
+    /* Padding for inner content spacing */
+    max-height: 800px;
+    /* Restricts height to prevent excessive overflow */
+    overflow-y: auto;
+    /* Enables vertical scrolling */
+    font-family: 'Consolas', 'Courier New', monospace;
+    /* Monospace for code clarity */
+    position: relative;
+    /* Allows for positioning pseudo-elements */
+    /*.................................................................................................................*/
+    /* Reflecting: Evaluating content rendering consistency, especially under different coding styles and themes. */
+}
+
+/**
+ * Pseudo-element indicating streaming state.
+ * Only visible when content is streaming to show activity.
+ */
+.macro-script-content.streaming::after {
+    content: '';
+    /* Visual indicator for activity */
+    position: absolute;
+    /* Positions element relative to parent */
+    bottom: 0;
+    /* Aligns to bottom */
+    right: 0;
+    /* Aligns to right */
+    width: 10px;
+    /* Sets width */
+    height: 10px;
+    /* Sets height */
+    background-color: #0e639c;
+    /* Matches the theme color */
+    border-radius: 50%;
+    /* Circular shape */
+    animation: blink 1s infinite;
+    /* Blinking animation */
+    display: block;
+    /* Displayed when streaming */
+    /*.................................................................................................................*/
+    /* Reflecting: Ensuring indicator visibility and alignment don't interfere with other UI elements. */
+}
+
+/**
+ * Action buttons within the macro script window.
+ * Flex layout to align buttons to the right with consistent padding.
+ */
+.macro-script-actions {
+    display: flex;
+    /* Flex layout for button arrangement */
+    justify-content: flex-end;
+    /* Aligns buttons to the right */
+    padding: 10px;
+    /* Inner padding around buttons */
+    background-color: #252526;
+    /* Matches macro script header background */
+    /*.................................................................................................................*/
+    /* Reflecting: Reviewing button alignment and accessibility within the macro script area for user ease. */
+}
+
+/**
+ * Styles for action buttons within macro script.
+ * Smooth background color transition on hover for interaction feedback.
+ */
+.macro-script-actions button {
+    margin-left: 10px;
+    /* Space between buttons */
+    padding: 5px 10px;
+    /* Inner padding for buttons */
+    background-color: #0e639c;
+    /* Button color matches theme */
+    color: #ffffff;
+    /* White text for contrast */
+    border: none;
+    /* Removes border */
+    border-radius: 4px;
+    /* Rounded corners */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+    transition: background-color 0.3s ease;
+    /* Smooth color transition on hover */
+    /*.................................................................................................................*/
+    /* Reflecting: Ensuring hover states provide clear feedback without disrupting usability. */
+}
+
+/**
+ * Hover effect for macro script action buttons.
+ * Darker blue background on hover for clear visual feedback.
+ */
+.macro-script-actions button:hover {
+    background-color: #1177bb;
+    /* Darker blue on hover */
+    /*.................................................................................................................*/
+    /* Reflecting: Hover feedback needs to be noticeable without being overwhelming or inconsistent. */
+}
+
+/**
+ * Styles for streaming content with opacity changes.
+ * Used to indicate content that is actively being streamed.
+ */
+.streaming-content {
+    opacity: 0.7;
+    /* Reduces opacity to show activity */
+    transition: opacity 0.3s ease;
+    /* Smooth transition */
+    /*.................................................................................................................*/
+    /* Reflecting: Balancing visual feedback for active streaming without losing content readability. */
+}
+
+.streaming-complete {
+    opacity: 1;
+    /* Fully opaque when streaming is complete */
+    /*.................................................................................................................*/
+    /* Reflecting: Ensuring the final state clearly indicates the end of streaming with full visibility. */
+}
+
+/**
+ * Loading indicator for asynchronous actions.
+ * Hidden by default, shown during loading states.
+ */
+.loading-indicator {
+    display: none;
+    /* Hidden by default */
+    text-align: center;
+    /* Centered text alignment */
+    padding: 10px;
+    /* Padding for inner spacing */
+    /*.................................................................................................................*/
+    /* Reflecting: Loading indicators need to be clearly visible when active but unobtrusive when hidden. */
+}
+
+.loading-indicator.visible {
+    display: block;
+    /* Shown during loading */
+    /*.................................................................................................................*/
+    /* Reflecting: Ensuring loading state transitions smoothly to improve user perception of performance. */
+}
+
+/**
+ * Updated styles for the chat input container and its elements.
+ * Flex layout for easy interaction between input and buttons.
+ */
+.chat-input-container {
+    background-color: var(--input-background);
+    /* Consistent background for input area */
+    border-radius: 8px;
+    /* Rounded corners for input container */
+    border: 1px solid var(--border-color);
+    /* Border using theme color */
+    padding: 10px;
+    /* Padding inside container */
+    display: flex;
+    /* Flex layout for inputs and buttons */
+    align-items: center;
+    /* Aligns items vertically */
+    justify-content: space-between;
+    /* Spreads items apart evenly */
+    transition: box-shadow 0.3s ease;
+    /* Smooth shadow transition */
+    margin-bottom: 0px;
+    /* Removes bottom margin to fit within overall layout */
+    /*.................................................................................................................*/
+    /* Reflecting: Ensuring input containers are functional and visually aligned within the app layout. */
+}
+
+/**
+ * Focus styles for input container.
+ * Adds shadow for clear visual focus feedback.
+ */
+.chat-input-container:focus-within {
+    box-shadow: 0 0 15px var(--accent-color);
+    /* Highlight when focused for user clarity */
+    /*.................................................................................................................*/
+    /* Reflecting: Visual feedback on focus states should enhance usability without being overly dramatic. */
+}
+
+/**
+ * Textarea within chat input container.
+ * Expandable with no resize and clear focus transitions.
+ */
+.chat-input-container textarea {
+    flex-grow: 1;
+    /* Expands to fill available space within container */
+    background: none;
+    /* Transparent background for unified design */
+    border: none;
+    /* Removes border to fit design language */
+    color: var(--text-primary);
+    /* Primary text color for readability */
+    resize: none;
+    /* Disables resizing to maintain layout integrity */
+    min-height: 80px;
+    /* Minimum height for usability */
+    max-height: 300px;
+    /* Limits height to prevent overflow */
+    padding: 5px;
+    /* Inner padding */
+    font-size: 14px;
+    /* Sets font size */
+    transition: border-color 0.3s ease;
+    /* Smooth transition for focus feedback */
+    /*.................................................................................................................*/
+    /* Reflecting: Balancing usability of textarea while preventing excessive height variations that could disrupt the layout. */
+}
+
+/**
+ * Focus styles for textarea.
+ * Removes default outline to match custom design.
+ */
+.chat-input-container textarea:focus {
+    outline: none;
+    /* Removes default outline for cleaner focus effect */
+    /*.................................................................................................................*/
+    /* Reflecting: Ensuring focus states are clear but visually consistent with the app’s overall theme. */
+}
+
+/**
+ * Adjusted attach button with a 2:4 ratio for consistent sizing.
+ */
+#attach-btn {
+    background: none;
+    /* No background for a clean look */
+    border: none;
+    /* No border */
+    cursor: pointer;
+    /* Pointer cursor for interactive feel */
+    padding: 5px;
+    /* Padding around the button */
+    display: flex;
+    /* Flex layout for centering */
+    align-items: center;
+    /* Centers button contents */
+    justify-content: center;
+    /* Centers button contents */
+    width: 20px;
+    /* Sets button width */
+    height: 40px;
+    /* Sets button height */
+    transition: transform 0.3s ease;
+    /* Smooth transform effect on interaction */
+    /*.................................................................................................................*/
+    /* Reflecting: Ensuring button sizing is appropriate across device types for touch and click interactions. */
+}
+
+/**
+ * Attach button image adjustments.
+ * Ensures images maintain aspect ratio and transitions smoothly.
+ */
+#attach-btn img {
+    width: 100%;
+    /* Full width to fit button */
+    height: auto;
+    /* Maintains aspect ratio */
+    transition: transform 0.3s ease;
+    /* Smooth scaling on hover */
+    /*.................................................................................................................*/
+    /* Reflecting: Consistency in image rendering within the button boundaries, especially for different image sources. */
+}
+
+/**
+ * Styles for the submit button.
+ * Consistent sizing and positioning with smooth interactions.
+ */
+#chat-submit-btn {
+    background: none;
+    /* Removes background for seamless integration */
+    border: none;
+    /* No border */
+    cursor: pointer;
+    /* Interactive cursor */
+    padding: 5px;
+    /* Padding around button */
+    display: flex;
+    /* Flexbox for layout management */
+    align-items: center;
+    /* Centered alignment */
+    justify-content: center;
+    /* Centered alignment */
+    /*.................................................................................................................*/
+    /* Reflecting: Ensuring button interactions are consistent across different parts of the app to avoid user confusion. */
+}
+
+/**
+ * Submit button image adjustments.
+ * Provides visual feedback on hover with scaling effect.
+ */
+#chat-submit-btn img {
+    width: 30px;
+    /* Set width for image */
+    height: 30px;
+    /* Set height for image */
+    transition: transform 0.3s ease;
+    /* Smooth transform on hover */
+    /*.................................................................................................................*/
+    /* Reflecting: Confirming the visibility and feedback of submit actions, ensuring the user can clearly see the response. */
+}
+
+/**
+ * Hover effects for the attach and submit buttons.
+ * Enlarges images on hover for clear user interaction.
+ */
+#attach-btn:hover img,
+#chat-submit-btn:hover img {
+    transform: scale(1.2);
+    /* Enlarges images for feedback */
+    /*.................................................................................................................*/
+    /* Reflecting: Consistent hover feedback across interactive elements to enhance user interaction intuitively. */
+}
+
+/**
+ * Container for the 'Improve Prompt' checkbox.
+ * Flex layout to align items and maintain spacing.
+ */
+.improve-prompt-container {
+    display: flex;
+    /* Flex layout for alignment */
+    align-items: center;
+    /* Centers items vertically */
+    margin-left: 10px;
+    /* Spacing to the left of checkbox */
+    /*.................................................................................................................*/
+    /* Reflecting: Ensuring prompt enhancements fit well within the broader UI layout and functionality. */
+}
+
+/**
+ * Checkbox for improving prompt with proper spacing.
+ */
+#improve-prompt {
+    margin-right: 5px;
+    /* Spacing to the right of the checkbox */
+    /*.................................................................................................................*/
+    /* Reflecting: Checkboxes should be easy to interact with and not crowd adjacent elements. */
+}
+
+/**
+ * Label for the 'Improve Prompt' checkbox.
+ * Ensures readability and interactive cursor.
+ */
+#improve-prompt+label {
+    font-size: 14px;
+    /* Readable font size */
+    color: #666;
+    /* Text color for readability */
+    cursor: pointer;
+    /* Pointer cursor for interactivity */
+    /*.................................................................................................................*/
+    /* Reflecting: Ensuring labels are clear, readable, and easily associated with their checkboxes. */
+}
+
+/**
+ * Animation for new content highlights.
+ * Provides a subtle fade from a highlight color to transparent.
+ */
+@keyframes highlight {
+    0% {
+        background-color: rgba(255, 255, 255, 0.1);
+        /* Start with a light highlight */
+    }
+
+    100% {
+        background-color: transparent;
+        /* Ends with no highlight */
+    }
+
+    /*.................................................................................................................*/
+    /* Reflecting: Animation provides clear, subtle feedback to the user without being disruptive. */
+}
+
+/**
+ * Blinking animation for indicators.
+ * Used to show activity or streaming state.
+ */
+@keyframes blink {
+    0% {
+        opacity: 0;
+        /* Starts invisible */
+    }
+
+    50% {
+        opacity: 1;
+        /* Fully visible at midpoint */
+    }
+
+    100% {
+        opacity: 0;
+        /* Ends invisible */
+    }
+
+    /*.................................................................................................................*/
+    /* Reflecting: Blinking effect needs to be noticeable but not overly distracting to avoid user fatigue. */
+}
+
+/**
+ * Class for highlighting new content with animation.
+ * Smooth fade transition to emphasize updates.
+ */
+.new-content {
+    animation: highlight 1s ease-out;
+    /* Applies the highlight animation */
+    /*.................................................................................................................*/
+    /* Reflecting: Ensures the new content is clearly highlighted, drawing user attention to updates. */
+}
