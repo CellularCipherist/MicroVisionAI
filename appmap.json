@@ -1,0 +1,1143 @@
+{
+  "core": {
+    "config.py": {
+      "description": "Configuration loader for the FastAPI application.",
+      "classes": {
+        "Config": {
+          "description": "Handles loading and accessing configuration from YAML file.",
+          "methods": {
+            "load_config": {
+              "description": "Loads configuration from YAML file.",
+              "inputs": {
+                "config_file": "str (optional)"
+              },
+              "outputs": {
+                "config_data": "dict"
+              },
+              "dependencies": ["yaml"],
+              "error_handling": "Raises FileNotFoundError if config file is missing, Exception for YAML parsing errors."
+            },
+            "get": {
+              "description": "Retrieves configuration value by key.",
+              "inputs": {
+                "key": "str",
+                "default": "Any (optional)"
+              },
+              "outputs": {
+                "value": "Any"
+              },
+              "error_handling": "Returns default if provided, raises KeyError if key not found."
+            }
+          }
+        }
+      }
+    },
+    "database.py": {
+      "description": "Database configuration and models.",
+      "components": {
+        "ImageMetadata": {
+          "description": "SQLAlchemy model for image metadata.",
+          "fields": {
+            "id": "Integer (primary key)",
+            "file_name": "String (unique, indexed)",
+            "image_metadata": "JSON",
+            "original_path": "Text",
+            "preview_path": "Text",
+            "original_file_type": "String",
+            "file_type": "String"
+          },
+          "dependencies": ["sqlalchemy", "config.py"]
+        },
+        "get_db": {
+          "description": "Database session factory.",
+          "outputs": {
+            "session": "SQLAlchemy Session"
+          },
+          "error_handling": "Ensures session closure in finally block."
+        }
+      }
+    },
+    "__init__.py": {
+      "description": "Application initialization."
+    },
+    "main.py": {
+      "description": "Entry point of the application."
+    },
+    "auth.py": {
+      "description": "Authentication system."
+    },
+    "config.yaml": {
+      "description": "Configuration data.",
+      "sections": {
+        "app": {
+          "secret_key": "string",
+          "debug": "boolean"
+        },
+        "paths": {
+          "imagej_dir": "string",
+          "template_dir": "string",
+          "static_dir": "string",
+          "upload_dir": "string"
+        },
+        "api_keys": {
+          "anthropic": "string",
+          "openai": "string"
+        }
+      },
+      "validation": {
+        "required_fields": [
+          "paths.imagej_dir",
+          "paths.template_dir",
+          "paths.static_dir"
+        ]
+      }
+    }
+  },
+  "services": {
+    "imagej_service.py": {
+      "description": "Core service for ImageJ operations and Java bridge.",
+      "classes": {
+        "ImageJService": {
+          "description": "Manages ImageJ initialization and operations.",
+          "methods": {
+            "initialize": {
+              "description": "Initializes ImageJ with retry mechanism.",
+              "inputs": {
+                "retries": "int (default=3)",
+                "delay": "int (default=5)"
+              },
+              "outputs": "None",
+              "dependencies": [
+                "config.py",
+                "imagej",
+                "jpype",
+                "scyjava"
+              ],
+              "error_handling": "Implements retry logic with logging."
+            },
+            "_configure_java_options": {
+              "description": "Configures JVM options for ImageJ.",
+              "dependencies": ["scyjava.config"],
+              "error_handling": "None",
+              "inputs": {},
+              "outputs": {}
+            },
+            "_import_imagej_classes": {
+              "description": "Imports required ImageJ Java classes.",
+              "dependencies": ["self.ij"],
+              "outputs": {
+                "IJ": "ImageJ class",
+                "BF": "Bio-Formats class"
+              }
+            },
+            "process_macro": {
+              "description": "Processes images using ImageJ macro.",
+              "inputs": {
+                "macro_script": "str",
+                "file_path": "str",
+                "background_tasks": "BackgroundTasks"
+              },
+              "outputs": {
+                "result": "Dict[str, Any]"
+              },
+              "dependencies": [
+                "file_service",
+                "image_service",
+                "config.py"
+              ],
+              "error_handling": "Raises HTTPException for processing errors."
+            },
+            "process_macro_execution": {
+              "description": "Processes images using ImageJ macro with detailed error handling.",
+              "inputs": {
+                "macro_script": "str",
+                "file_path": "str",
+                "background_tasks": "BackgroundTasks"
+              },
+              "outputs": {
+                "result": "Dict[str, Any]"
+              },
+              "dependencies": [
+                "file_service",
+                "image_service",
+                "config.py"
+              ],
+              "error_handling": "Handles MacroExecutionError, FileNotFoundError, TimeoutError with detailed logging."
+            }
+          }
+        }
+      },
+      "error_handling": {
+        "initialization_errors": {
+          "description": "Handles ImageJ initialization failures.",
+          "retry_mechanism": {
+            "max_retries": 3,
+            "delay": 5,
+            "error_logging": "Detailed logging with stack traces."
+          },
+          "error_types": [
+            "RuntimeError",
+            "JVMInitializationError",
+            "TimeoutError"
+          ]
+        },
+        "macro_execution_errors": {
+          "description": "Handles macro execution failures.",
+          "error_types": [
+            "MacroExecutionError",
+            "FileNotFoundError",
+            "TimeoutError"
+          ],
+          "logging": "Detailed error logging with output capture."
+        }
+      }
+    },
+    "file_service.py": {
+      "description": "Handles file operations and management.",
+      "classes": {
+        "FileService": {
+          "description": "Service for file operations.",
+          "methods": {
+            "wait_for_file": {
+              "description": "Asynchronously waits for file creation.",
+              "inputs": {
+                "file_path": "str",
+                "timeout": "int",
+                "check_interval": "float"
+              },
+              "outputs": "bool",
+              "error_handling": "Timeout handling with logging."
+            },
+            "create_zip_file": {
+              "description": "Creates ZIP archive of processed files.",
+              "inputs": {
+                "file_paths": "List[str]",
+                "zip_filename": "str"
+              },
+              "outputs": "Optional[str]",
+              "error_handling": "Exception handling with logging."
+            }
+          }
+        }
+      },
+      "error_handling": {
+        "file_operations": {
+          "description": "Handles file operation failures.",
+          "error_types": [
+            "FileNotFoundError",
+            "PermissionError",
+            "TimeoutError"
+          ],
+          "retry_mechanism": "Implemented for critical operations."
+        }
+      }
+    },
+    "image_service.py": {
+      "description": "Handles image processing and preview generation.",
+      "classes": {
+        "ImageService": {
+          "description": "Service for image operations.",
+          "methods": {
+            "process_image": {
+              "description": "Processes images using ImageJ.",
+              "inputs": {
+                "original_path": "str",
+                "background_tasks": "BackgroundTasks",
+                "filename": "str"
+              },
+              "outputs": "Dict",
+              "dependencies": [
+                "imagej_service",
+                "file_service"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "atlas_service.py": {
+      "description": "AI integration service for macro generation and prompt handling.",
+      "functions": {
+        "generate_improved_prompt": {
+          "description": "Enhances user prompts using Claude AI.",
+          "inputs": {
+            "user_prompt": "str",
+            "context": "Optional[str]"
+          },
+          "outputs": {
+            "improved_prompt": "str"
+          },
+          "dependencies": [
+            "config.py",
+            "anthropic"
+          ],
+          "error_handling": "Raises HTTPException for AI service errors."
+        },
+        "generate_macro_from_prompt": {
+          "description": "Generates ImageJ macros from natural language.",
+          "inputs": {
+            "prompt": "str",
+            "context": "Optional[str]"
+          },
+          "outputs": {
+            "macro_script": "str"
+          },
+          "dependencies": [
+            "config.py",
+            "anthropic",
+            "imagej_service.py"
+          ],
+          "error_handling": "Raises HTTPException for AI service errors."
+        }
+      }
+    },
+    "__init__.py": {
+      "description": "Initializes the services package.",
+      "dependencies": []
+    }
+  },
+  "routes": {
+    "app_primer.json": {
+      "description": "API documentation."
+    }
+  },
+  "templates": {
+    "description": "Jinja2 templates handled by FastAPI backend.",
+    "index.html": {
+      "description": "Main application template.",
+      "dependencies": [
+        "main.js",
+        "apiCalls.js",
+        "chatInterface.js",
+        "macroScriptInterface.js"
+      ]
+    },
+    "macros": {
+      "headless_macro_template.ijm": {
+        "description": "Template for ImageJ macro generation.",
+        "variables": {
+          "input_path": "str",
+          "output_dir": "str",
+          "filename": "str",
+          "output_log_path": "str"
+        },
+        "dependencies": [
+          "imagej_service.py",
+          "image_service.py"
+        ]
+      },
+      "conversion_macro.ijm": {
+        "description": "Template for file conversion operations.",
+        "dependencies": [
+          "image_service.py"
+        ]
+      }
+    }
+  },
+  "frontend": {
+    "static/js": {
+      "main.js": {
+        "description": "Main JavaScript entry point.",
+        "functions": {
+          "initializeApp": {
+            "description": "Initializes the application and sets up event listeners.",
+            "dependencies": [
+              "apiCalls.js",
+              "eventListeners.js",
+              "uiUpdates.js"
+            ],
+            "error_handling": "Console logging with user notifications."
+          },
+          "setupEventSource": {
+            "description": "Initializes EventSource connection for real-time updates.",
+            "inputs": {
+              "url": "string"
+            },
+            "outputs": {
+              "eventSource": "EventSource"
+            },
+            "dependencies": [
+              "uiUpdates.js"
+            ],
+            "error_handling": "Handles EventSource connection errors and attempts reconnection."
+          }
+        }
+      },
+      "apiCalls.js": {
+        "description": "Handles all API interactions.",
+        "functions": {
+          "uploadFile": {
+            "description": "Handles file upload to server.",
+            "inputs": {
+              "file": "File",
+              "options": "UploadOptions"
+            },
+            "outputs": {
+              "response": "UploadResponse"
+            },
+            "dependencies": [
+              "uiUpdates.js",
+              "eventListeners.js"
+            ],
+            "error_handling": "Handles network errors and displays notifications to user."
+          },
+          "generateMacro": {
+            "description": "Requests macro generation from AI.",
+            "inputs": {
+              "prompt": "string",
+              "context": "object"
+            },
+            "outputs": {
+              "macro": "string"
+            },
+            "dependencies": [
+              "chatInterface.js"
+            ],
+            "error_handling": "Handles network errors and displays notifications to user."
+          }
+        }
+      },
+      "chatInterface.js": {
+        "description": "Manages chat interface and AI interactions.",
+        "functions": {
+          "sendMessage": {
+            "description": "Sends user message to AI service.",
+            "inputs": {
+              "message": "string",
+              "context": "object"
+            },
+            "outputs": {
+              "response": "AIResponse"
+            },
+            "dependencies": [
+              "apiCalls.js",
+              "uiUpdates.js"
+            ],
+            "error_handling": "Handles network errors and displays notifications to user."
+          },
+          "updateChat": {
+            "description": "Updates chat interface with new messages.",
+            "inputs": {
+              "message": "ChatMessage"
+            },
+            "dependencies": [
+              "uiUpdates.js"
+            ],
+            "error_handling": "Handles UI update failures gracefully."
+          },
+          "initializeEventSource": {
+            "description": "Sets up EventSource connection for real-time updates.",
+            "inputs": {
+              "url": "string"
+            },
+            "outputs": {
+              "eventSource": "EventSource"
+            },
+            "dependencies": [
+              "uiUpdates.js"
+            ],
+            "error_handling": "Handles connection errors and attempts reconnection."
+          },
+          "handleEventSourceMessage": {
+            "description": "Processes incoming EventSource messages.",
+            "inputs": {
+              "message": "EventSourceMessage"
+            },
+            "dependencies": [
+              "macroScriptInterface.js",
+              "uiUpdates.js"
+            ],
+            "error_handling": "Handles message processing errors and notifies users."
+          }
+        }
+      },
+      "macroScriptInterface.js": {
+        "description": "Handles macro script generation and execution.",
+        "functions": {
+          "executeMacro": {
+            "description": "Executes ImageJ macro on selected image.",
+            "inputs": {
+              "macro": "string",
+              "imageId": "string"
+            },
+            "outputs": {
+              "result": "ExecutionResult"
+            },
+            "dependencies": [
+              "apiCalls.js",
+              "uiUpdates.js"
+            ],
+            "error_handling": "Handles execution errors and notifies users."
+          },
+          "generateMacro": {
+            "description": "Generates ImageJ macro using AI.",
+            "inputs": {
+              "prompt": "string",
+              "imageContext": "object"
+            },
+            "outputs": {
+              "macro": "string"
+            },
+            "dependencies": [
+              "apiCalls.js",
+              "chatInterface.js"
+            ],
+            "error_handling": "Handles generation errors and notifies users."
+          }
+        }
+      },
+      "eventListeners.js": {
+        "description": "Manages event listeners and user interactions.",
+        "functions": {
+          "setupEventSourceHandlers": {
+            "description": "Sets up EventSource event handlers.",
+            "inputs": {
+              "eventSource": "EventSource"
+            },
+            "dependencies": [
+              "uiUpdates.js",
+              "chatInterface.js"
+            ],
+            "error_handling": "Handles EventSource handler setup errors."
+          },
+          "setupFileUploadHandlers": {
+            "description": "Initializes file upload event listeners.",
+            "inputs": {
+              "dropZone": "HTMLElement",
+              "fileInput": "HTMLElement"
+            },
+            "dependencies": [
+              "fileHandling.js",
+              "apiCalls.js"
+            ],
+            "error_handling": "Handles event listener setup errors."
+          },
+          "setupDragAndDrop": {
+            "description": "Initializes drag and drop functionality.",
+            "inputs": {
+              "dropZone": "HTMLElement",
+              "fileInput": "HTMLElement"
+            },
+            "dependencies": [
+              "fileHandling.js",
+              "uiUpdates.js"
+            ],
+            "error_handling": "Handles drag and drop errors."
+          },
+          "setupChatInput": {
+            "description": "Sets up chat input handling.",
+            "dependencies": [
+              "chatInterface.js",
+              "uiUpdates.js"
+            ],
+            "error_handling": "Handles chat input setup errors."
+          }
+        }
+      },
+      "fileHandling.js": {
+        "description": "Manages file upload and processing.",
+        "functions": {
+          "handleFileUpload": {
+            "description": "Processes file upload events.",
+            "inputs": {
+              "file": "File"
+            },
+            "outputs": {
+              "uploadResult": "UploadResult"
+            },
+            "dependencies": [
+              "apiCalls.js",
+              "uiUpdates.js"
+            ],
+            "error_handling": "Handles file upload errors and notifies users."
+          },
+          "validateFile": {
+            "description": "Validates file type and size.",
+            "inputs": {
+              "file": "File"
+            },
+            "outputs": {
+              "isValid": "boolean",
+              "error": "string?"
+            },
+            "error_handling": "Handles file validation errors."
+          }
+        }
+      },
+      "uiUpdates.js": {
+        "description": "Handles UI updates and notifications.",
+        "functions": {
+          "showNotification": {
+            "description": "Displays notification messages.",
+            "inputs": {
+              "message": "string",
+              "type": "success | error | info"
+            },
+            "error_handling": "Handles notification display errors."
+          },
+          "updateImagePreview": {
+            "description": "Updates image preview after processing.",
+            "inputs": {
+              "imageData": "ImagePreviewData"
+            },
+            "dependencies": [
+              "macroScriptInterface.js"
+            ],
+            "error_handling": "Handles image preview update errors."
+          },
+          "updatePreview": {
+            "description": "Updates image preview after processing.",
+            "inputs": {
+              "previewData": "ImagePreview"
+            },
+            "dependencies": [
+              "macroScriptInterface.js"
+            ],
+            "error_handling": "Handles preview update errors."
+          }
+        }
+      },
+      "colorSchemeSwitcher.js": {
+        "description": "Manages color scheme preferences.",
+        "functions": {
+          "toggleColorScheme": {
+            "description": "Switches between light and dark mode.",
+            "dependencies": [
+              "uiUpdates.js"
+            ],
+            "error_handling": "Handles toggle errors."
+          },
+          "initializeColorScheme": {
+            "description": "Sets initial color scheme based on user preference.",
+            "dependencies": [
+              "utils.js"
+            ],
+            "error_handling": "Handles initialization errors."
+          }
+        }
+      },
+      "utils.js": {
+        "description": "Utility functions for the application.",
+        "functions": {
+          "debounce": {
+            "description": "Debounces function calls.",
+            "inputs": {
+              "func": "Function",
+              "wait": "number"
+            },
+            "outputs": {
+              "debouncedFunction": "Function"
+            },
+            "error_handling": "Handles debounce errors."
+          },
+          "formatBytes": {
+            "description": "Formats byte sizes to human-readable format.",
+            "inputs": {
+              "bytes": "number"
+            },
+            "outputs": {
+              "formattedSize": "string"
+            },
+            "error_handling": "Handles formatting errors."
+          }
+        }
+      }
+    },
+    "static/css": {
+      "description": "Stylesheet organization.",
+      "components": {
+        "main.css": {
+          "description": "Core styles and layout.",
+          "dependencies": [
+            "layout.css",
+            "colors.css"
+          ]
+        },
+        "layout.css": {
+          "description": "Layout-specific styles.",
+          "dependencies": []
+        },
+        "colors.css": {
+          "description": "Color definitions and schemes.",
+          "dependencies": []
+        },
+        "chat.css": {
+          "description": "Chat interface styling.",
+          "dependencies": [
+            "colors.css",
+            "messages.css"
+          ]
+        },
+        "messages.css": {
+          "description": "Chat messages styling.",
+          "dependencies": [
+            "colors.css"
+          ]
+        },
+        "macro-script.css": {
+          "description": "Macro editor styling.",
+          "dependencies": [
+            "colors.css"
+          ]
+        },
+        "sidebar.css": {
+          "description": "Sidebar styling.",
+          "dependencies": [
+            "colors.css"
+          ]
+        },
+        "drag-drop.css": {
+          "description": "Drag and drop functionality styling.",
+          "dependencies": []
+        },
+        "color-scheme-selector.css": {
+          "description": "Color scheme selector styling.",
+          "dependencies": []
+        },
+        "dark-mode.css": {
+          "description": "Dark mode specific styles.",
+          "dependencies": []
+        },
+        "responsive.css": {
+          "description": "Responsive design styles.",
+          "dependencies": []
+        },
+        "utilities.css": {
+          "description": "Utility classes for the application.",
+          "dependencies": []
+        }
+      }
+    },
+    "prompts": {
+      "macros": {
+        "headless_macro_template.ijm": {
+          "description": "Template for ImageJ macro generation.",
+          "variables": {
+            "input_path": "str",
+            "output_dir": "str",
+            "filename": "str",
+            "output_log_path": "str"
+          },
+          "dependencies": [
+            "imagej_service.py",
+            "image_service.py"
+          ]
+        },
+        "conversion_macro.ijm": {
+          "description": "Template for file conversion operations.",
+          "dependencies": [
+            "image_service.py"
+          ]
+        }
+      },
+      "system_prompts.py": {
+        "description": "Defines AI prompts for system interactions.",
+        "functions": {
+          "get_welcome_message": {
+            "description": "Generates a welcome message for new users.",
+            "inputs": {
+              "user_name": "str"
+            },
+            "outputs": {
+              "message": "str"
+            },
+            "dependencies": ["chat_routes.py"],
+            "error_handling": "Returns default message if AI generation fails."
+          }
+        }
+      },
+      "__init__.py": {
+        "description": "Initialization for AI prompts."
+      }
+    },
+    "logging": {
+      "description": "Application-wide logging configuration.",
+      "components": {
+        "core_logging": {
+          "description": "Core application logging setup.",
+          "configuration": {
+            "level": "INFO",
+            "format": "%(asctime)s - %(levelname)s - %(message)s",
+            "handlers": [
+              "console",
+              "file"
+            ]
+          },
+          "dependencies": [
+            "config.py",
+            "logging"
+          ]
+        },
+        "service_logging": {
+          "description": "Service-specific logging patterns.",
+          "components": {
+            "imagej_service": {
+              "log_patterns": {
+                "initialization": "Detailed JVM and ImageJ startup logging.",
+                "macro_execution": "Macro execution progress and results.",
+                "error_handling": "Detailed error logging with stack traces."
+              }
+            },
+            "file_service": {
+              "log_patterns": {
+                "file_operations": "File creation, deletion, and modification events.",
+                "zip_operations": "Archive creation and file addition events.",
+                "cleanup": "Temporary file cleanup operations."
+              }
+            }
+          }
+        }
+      }
+    },
+    "error_handling": {
+      "description": "Comprehensive error handling strategies across the application.",
+      "frontend": {
+        "api_errors": {
+          "description": "Frontend API error handling.",
+          "strategies": {
+            "network_errors": {
+              "description": "Handles network-related failures.",
+              "actions": [
+                "Retry with exponential backoff.",
+                "Show user-friendly error messages.",
+                "Log to console with error context."
+              ]
+            },
+            "validation_errors": {
+              "description": "Handles input validation failures.",
+              "actions": [
+                "Display specific error messages.",
+                "Highlight invalid inputs.",
+                "Prevent form submission."
+              ]
+            }
+          }
+        },
+        "eventsource_errors": {
+          "description": "EventSource error handling.",
+          "strategies": {
+            "connection_loss": {
+              "description": "Handles EventSource connection failures.",
+              "retry_mechanism": {
+                "max_attempts": 5,
+                "backoff_factor": 1.5,
+                "initial_delay": 1000
+              }
+            },
+            "message_processing": {
+              "description": "Handles EventSource message processing errors.",
+              "actions": [
+                "Log error details.",
+                "Notify user.",
+                "Attempt message reprocessing."
+              ]
+            }
+          }
+        }
+      },
+      "backend": {
+        "service_errors": {
+          "description": "Backend service error handling.",
+          "components": {
+            "imagej_initialization": {
+              "description": "ImageJ initialization error handling.",
+              "strategies": {
+                "retry_mechanism": {
+                  "max_retries": 3,
+                  "delay_seconds": 5,
+                  "backoff_factor": 1.5
+                },
+                "error_types": [
+                  "JVMInitializationError",
+                  "RuntimeError",
+                  "TimeoutError"
+                ],
+                "logging": {
+                  "level": "ERROR",
+                  "include_stack_trace": true,
+                  "notify_admin": true
+                }
+              }
+            },
+            "file_operations": {
+              "description": "File handling error management.",
+              "strategies": {
+                "validation_errors": {
+                  "actions": [
+                    "Log error details.",
+                    "Clean up temporary files.",
+                    "Notify user with specific error."
+                  ]
+                },
+                "processing_errors": {
+                  "retry_mechanism": {
+                    "enabled": true,
+                    "max_attempts": 3,
+                    "delay_between_attempts": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        "general_errors": {
+          "description": "Handles general application errors.",
+          "strategies": {
+            "log_all_errors": {
+              "description": "Logs all errors with detailed context.",
+              "actions": [
+                "Log all errors with detailed context.",
+                "Implement retry mechanisms where applicable.",
+                "Notify relevant stakeholders or systems."
+              ]
+            },
+            "resource_errors": {
+              "description": "Handles resource-related errors.",
+              "actions": [
+                "Monitor resource usage.",
+                "Implement throttling or scaling strategies.",
+                "Alert on critical resource thresholds."
+              ]
+            }
+          }
+        }
+      }
+    },
+    "websocket": {
+      "description": "Removed - Replaced by EventSource for real-time updates."
+    },
+    "eventsource": {
+      "description": "EventSource (Server-Sent Events) implementation for real-time updates.",
+      "components": {
+        "implementation": {
+          "description": "Real-time communication system using EventSource.",
+          "message_types": {
+            "processing_status": {
+              "description": "Image processing status updates.",
+              "fields": {
+                "status": "string (STARTED, PROCESSING, COMPLETED, ERROR)",
+                "progress": "number (0-100)",
+                "file_id": "string",
+                "message": "string"
+              }
+            },
+            "macro_generation": {
+              "description": "Macro generation progress updates.",
+              "fields": {
+                "status": "string (GENERATING, COMPLETED, ERROR)",
+                "macro": "string",
+                "explanation": "string"
+              }
+            }
+          },
+          "reconnection_strategy": {
+            "description": "EventSource reconnection handling.",
+            "implementation": {
+              "max_attempts": 5,
+              "backoff_multiplier": 1.5,
+              "initial_delay": 1000,
+              "max_delay": 30000
+            }
+          }
+        },
+        "event_handling": {
+          "description": "EventSource event management.",
+          "events": {
+            "open": {
+              "description": "Connection opened event.",
+              "handlers": [
+                "onOpen"
+              ]
+            },
+            "error": {
+              "description": "Connection error event.",
+              "handlers": [
+                "onError"
+              ]
+            },
+            "message": {
+              "description": "Incoming message event.",
+              "handlers": [
+                "onProcessingStatus",
+                "onMacroGeneration",
+                "onError"
+              ]
+            }
+          }
+        }
+      },
+      "error_handling": {
+        "reconnection": {
+          "max_attempts": 5,
+          "backoff_factor": 1.5,
+          "initial_delay": 1000
+        },
+        "message_processing": {
+          "invalid_message": "Logs error and notifies user.",
+          "timeout": "Implements message retry logic."
+        }
+      },
+      "dependencies": {
+        "frontend": [
+          "chatInterface.js",
+          "uiUpdates.js",
+          "eventListeners.js"
+        ],
+        "backend": [
+          "image_service.py",
+          "imagej_service.py"
+        ]
+      }
+    },
+    "data_flow": {
+      "description": "Application data flow patterns.",
+      "upload_flow": {
+        "description": "Image upload and processing flow.",
+        "steps": {
+          "file_upload": {
+            "source": "frontend/fileHandling.js",
+            "destination": "services/image_service.py",
+            "validation": {
+              "file_type": ["czi", "tif", "tiff"],
+              "size_limit": "100MB"
+            }
+          },
+          "image_processing": {
+            "source": "services/image_service.py",
+            "destination": "services/imagej_service.py",
+            "async_operations": [
+              "preview_generation",
+              "metadata_extraction",
+              "macro_execution"
+            ]
+          }
+        }
+      },
+      "ai_interaction_flow": {
+        "description": "AI service interaction workflow.",
+        "steps": {
+          "prompt_generation": {
+            "source": "frontend/chatInterface.js",
+            "destination": "services/atlas_service.py",
+            "operations": [
+              "prompt_improvement",
+              "macro_generation"
+            ]
+          }
+        }
+      },
+      "eventsource_communication": {
+        "description": "Real-time updates and notifications via EventSource.",
+        "channels": {
+          "processing_status": {
+            "source": "services/imagej_service.py",
+            "destination": "frontend/eventsource.js",
+            "message_types": [
+              "PROCESSING_START",
+              "PROCESSING_PROGRESS",
+              "PROCESSING_COMPLETE",
+              "PROCESSING_ERROR"
+            ]
+          },
+          "chat_updates": {
+            "source": "services/atlas_service.py",
+            "destination": "frontend/chatInterface.js",
+            "message_types": [
+              "MACRO_GENERATION_START",
+              "MACRO_GENERATION_COMPLETE",
+              "MACRO_GENERATION_ERROR"
+            ]
+          }
+        }
+      }
+    },
+    "performance_optimization": {
+      "description": "Application-wide performance optimization strategies.",
+      "components": {
+        "image_processing": {
+          "description": "Image processing optimizations.",
+          "strategies": {
+            "memory_management": {
+              "description": "Memory usage optimization.",
+              "implementations": {
+                "jvm_options": {
+                  "max_heap": "-Xmx8g",
+                  "initial_heap": "-Xms4g"
+                },
+                "cleanup": {
+                  "temp_files": "Automatic cleanup after processing.",
+                  "memory_release": "Explicit garbage collection calls."
+                }
+              }
+            },
+            "parallel_processing": {
+              "description": "Parallel processing implementation.",
+              "strategies": [
+                "Background task processing.",
+                "Asynchronous file operations.",
+                "Concurrent image processing."
+              ]
+            }
+          }
+        },
+        "resource_management": {
+          "description": "Resource allocation and management.",
+          "components": {
+            "file_handling": {
+              "description": "File system resource management.",
+              "strategies": {
+                "temp_cleanup": "Scheduled temporary file cleanup.",
+                "disk_space": "Regular disk space monitoring.",
+                "file_streaming": "Stream large files instead of loading into memory."
+              }
+            },
+            "connection_pooling": {
+              "description": "Database and service connection management.",
+              "implementations": {
+                "database": "SQLAlchemy connection pooling.",
+                "imagej": "JVM resource pooling."
+              }
+            }
+          }
+        },
+        "eventsource_optimization": {
+          "description": "EventSource connection and message handling optimizations.",
+          "patterns": {
+            "connection_management": {
+              "description": "Manages EventSource connections efficiently.",
+              "implementations": [
+                "Connection pooling.",
+                "Automatic reconnection.",
+                "Heartbeat mechanism."
+              ]
+            },
+            "message_batching": {
+              "description": "Optimizes message transmission.",
+              "strategies": [
+                "Message queuing.",
+                "Batch processing.",
+                "Compression."
+              ]
+            }
+          }
+        },
+        "preview_generation": {
+          "description": "Optimizes preview generation.",
+          "strategies": [
+            "Asynchronous processing.",
+            "Caching.",
+            "Size optimization."
+          ]
+        },
+        "macro_execution": {
+          "description": "Optimizes ImageJ macro execution.",
+          "strategies": [
+            "Parallel processing.",
+            "Resource pooling.",
+            "Memory management."
+          ]
+        }
+      }
+    }
+  }
+}
