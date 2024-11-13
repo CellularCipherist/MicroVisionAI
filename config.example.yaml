@@ -1,0 +1,22 @@
+# App settings
+app:
+  secret_key: "your-secret-key"
+  debug: false
+
+# Paths
+paths:
+  imagej_dir: "/path/to/imagej"
+  template_dir: "app/templates"
+  static_dir: "app/static"
+  upload_dir: "app/uploads"
+  macro_template: "app/templates/macros/headless_macro_template.ijm"
+
+# API keys
+api_keys:
+  anthropic: "your-anthropic-key"
+  openai: "your-openai-key"
+
+# Authentication
+auth:
+  username: "admin"
+  password: "your-hashed-password"

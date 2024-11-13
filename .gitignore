@@ -9,3 +9,4 @@ venv/
 *.log
 app/uploads/
 combined_chat_interface.txt
+config.yaml
