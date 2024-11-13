@@ -1,0 +1,15 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.env
+.vscode/
+*.log
+app/uploads/*
+config.yaml
+combined_chat_interface.txt
+.git
+.gitignore
+README.md
