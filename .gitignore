@@ -9,4 +9,8 @@ venv/
 *.log
 app/uploads/
 combined_chat_interface.txt
+<<<<<<< HEAD
+config.yaml
+=======
+>>>>>>> bfb28e5c42623c3e7e81a1a5d6026a1d250ee9ab
 config.yaml
